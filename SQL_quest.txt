@@ -1,0 +1,10 @@
+Duplicate Job Listings
+
+select count(count_1) AS duplicate_companies
+from
+(select count(company_id) AS count_1
+from job_listings 
+group by company_id ) 
+AS tab2 
+where count_1>1
+
