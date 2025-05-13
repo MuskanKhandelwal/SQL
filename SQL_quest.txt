@@ -8,3 +8,23 @@ group by company_id )
 AS tab2 
 where count_1>1
 
+Cities With Completed Trades
+
+select city,count(city) AS total_orders from trades t
+left join users u on t.user_id=u.user_id
+where t.status='Completed'
+group by city order by total_orders desc limit 3
+
+Sending vs. Opening Snaps
+
+SELECT ag.age_bucket,
+ROUND(100.0 * 
+SUM(a.time_spent) FILTER (WHERE a.activity_type = 'send')/
+    SUM(a.time_spent),2)  AS send_perc,
+ROUND(100.0 *     
+SUM(a.time_spent) FILTER (WHERE a.activity_type = 'open')/
+    SUM(a.time_spent),2)  AS open_perc
+FROM activities a
+left join age_breakdown ag on a.user_id=ag.user_id
+WHERE a.activity_type IN ('send', 'open') 
+GROUP BY ag.age_bucket;
