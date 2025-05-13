@@ -28,3 +28,15 @@ FROM activities a
 left join age_breakdown ag on a.user_id=ag.user_id
 WHERE a.activity_type IN ('send', 'open') 
 GROUP BY ag.age_bucket;
+
+
+
+
+Tweets' Rolling Averages
+SELECT user_id,
+tweet_date,
+ROUND(AVG(tweet_count) OVER(
+PARTITION BY user_id 
+order by tweet_date
+ROWS BETWEEN 2 PRECEDING AND CURRENT ROW),2) AS rolling_avg_3d 
+from tweets
