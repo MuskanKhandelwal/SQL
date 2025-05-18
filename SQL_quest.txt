@@ -60,3 +60,9 @@ LEFT JOIN department AS d
 ON s.department_id = d.department_id
 WHERE s.ranking <= 3
 ORDER BY d.department_name ASC, s.salary DESC, s.name ASC;
+
+Signup Activation Rate
+
+select ROUND(COUNT(t.email_id)::DECIMAL/COUNT(DISTINCT e.email_id),2 )AS activation_rate
+from emails e left join texts t on e.email_id=t.email_id
+AND signup_action ='Confirmed'
