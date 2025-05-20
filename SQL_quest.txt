@@ -8,7 +8,8 @@ group by company_id )
 AS tab2 
 where count_1>1
 
-Cities With Completed Trades
+
+Cities With Completed Trade
 
 select city,count(city) AS total_orders from trades t
 left join users u on t.user_id=u.user_id
