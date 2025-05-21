@@ -81,3 +81,19 @@ SELECT customer_id
 FROM supercloud_cust
 where product_count =(
 select COUNT(DISTINCT product_category) FROM products);
+
+
+Odd and Even Measurements
+WITH table_1 AS(
+SELECT CAST(measurement_time AS DATE) AS measurement_day,
+measurement_value, ROW_NUMBER()
+OVER(PARTITION BY CAST(measurement_time AS DATE) ORDER BY measurement_time) AS measurement_num 
+  FROM measurements
+)
+
+SELECT measurement_day,
+SUM(measurement_value) filter (where measurement_num%2!=0) AS odd_sum,
+SUM(measurement_value) filter (where measurement_num%2=0) AS even_sum
+from table_1
+group by measurement_day;
+
