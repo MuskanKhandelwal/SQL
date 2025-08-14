@@ -114,3 +114,16 @@ WHERE u.banned = 'No'
   AND '2013-10-03' 
   group by Day ;
 
+
+
+1251. Average Selling Price
+https://leetcode.com/problems/average-selling-price/description/
+
+# Write your MySQL query statement below
+select p.product_id,
+IFNULL( ROUND(SUM(u.units*p.price)/SUM(u.units),2),0) AS average_price
+from  Prices p left join UnitsSold u
+on p.product_id = u.product_id
+AND u.purchase_date BETWEEN p.start_date AND p.end_date 
+group by product_id;
+
