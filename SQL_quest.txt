@@ -97,3 +97,20 @@ SUM(measurement_value) filter (where measurement_num%2=0) AS even_sum
 from table_1
 group by measurement_day;
 
+
+
+
+https://leetcode.com/problems/trips-and-users/description/
+262. Trips and Users
+# Write your MySQL query statement below
+select t.request_at AS Day, ROUND(SUM(t.status!='completed') /COUNT(*),2) AS 'Cancellation Rate' 
+from 
+trips t 
+join Users u on t.client_id=u.users_id
+join Users ud on t.driver_id=ud.users_id  
+WHERE u.banned = 'No'
+  AND ud.banned = 'No'
+  AND request_at BETWEEN '2013-10-01' 
+  AND '2013-10-03' 
+  group by Day ;
+
