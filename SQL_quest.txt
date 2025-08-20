@@ -127,3 +127,15 @@ on p.product_id = u.product_id
 AND u.purchase_date BETWEEN p.start_date AND p.end_date 
 group by product_id;
 
+
+184: Department Highest Salary
+https://leetcode.com/problems/department-highest-salary/
+
+SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary
+FROM Employee e
+JOIN Department d ON e.departmentId = d.id
+WHERE e.salary = (
+    SELECT MAX(salary)
+    FROM Employee
+    WHERE departmentId = e.departmentId
+);
