@@ -139,3 +139,16 @@ WHERE e.salary = (
     FROM Employee
     WHERE departmentId = e.departmentId
 );
+
+
+185. Department Top Three Salaries
+
+# Write your MySQL query statement below
+SELECT d.name AS Department, re.name AS 'Employee', re.salary
+FROM Department d
+JOIN
+(SELECT *,
+DENSE_RANK() OVER (PARTITION BY departmentId ORDER BY salary DESC) AS salary_rank
+FROM Employee) AS re
+ON d.id = re.departmentId
+WHERE re.salary_rank <= 3;
