@@ -152,3 +152,24 @@ DENSE_RANK() OVER (PARTITION BY departmentId ORDER BY salary DESC) AS salary_ran
 FROM Employee) AS re
 ON d.id = re.departmentId
 WHERE re.salary_rank <= 3;
+
+
+https://platform.stratascratch.com/coding/10084-cum-sum-energy-consumption?utm_source=chatgpt.com&code_type=3
+Cum Sum Energy Consumption
+
+SELECT
+    e.recorded_date,
+    SUM(e.consumption) OVER (ORDER BY e.recorded_date) AS running_total,
+    ROUND(
+        SUM(e.consumption) OVER (ORDER BY e.recorded_date) * 100.0 
+        / SUM(e.consumption) OVER (),
+        0
+    ) AS running_percentage
+FROM (
+    SELECT * FROM fb_eu_energy
+    UNION ALL
+    SELECT * FROM fb_na_energy
+    UNION ALL
+    SELECT * FROM fb_asia_energy
+) AS e
+ORDER BY e.recorded_date;
