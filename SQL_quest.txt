@@ -173,3 +173,27 @@ FROM (
     SELECT * FROM fb_asia_energy
 ) AS e
 ORDER BY e.recorded_date;
+
+
+https://platform.stratascratch.com/coding/2148-monthly-sales-rolling-average?code_type=3
+Monthly Sales Rolling Average
+WITH monthly_sales AS (
+    SELECT 
+        MONTH(order_date) AS month,
+        SUM(quantity * unit_price) AS sales
+    FROM amazon_books a
+    JOIN book_orders b
+      ON a.book_id = b.book_id
+    WHERE YEAR(order_date) = 2022
+    GROUP BY MONTH(order_date)
+)
+SELECT
+    month,
+    sales,
+    ROUND(
+        AVG(sales) OVER (ORDER BY month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW),
+        0
+    ) AS rolling_avg
+FROM monthly_sales
+ORDER BY month;
+
