@@ -197,3 +197,73 @@ SELECT
 FROM monthly_sales
 ORDER BY month;
 
+
+
+
+
+ 602. Friend Requests II: Who Has the Most Friends
+https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends/description/
+Method 1
+WITH all_counts AS (
+    SELECT requester_id AS player_id, COUNT(*) AS cnt
+    FROM RequestAccepted
+    GROUP BY requester_id
+    
+    UNION ALL
+    
+    SELECT accepter_id AS player_id, COUNT(*) AS cnt
+    FROM RequestAccepted
+    GROUP BY accepter_id
+),
+friend_totals AS (
+    SELECT player_id, SUM(cnt) AS num
+    FROM all_counts
+    GROUP BY player_id
+)
+SELECT player_id AS id, num
+FROM friend_totals
+WHERE num = (SELECT MAX(num) FROM friend_totals);
+
+
+
+Method 2
+select id,count(id) as num
+from 
+(
+    select requester_id as id from RequestAccepted
+    union all
+    select accepter_id as id from RequestAccepted
+)p
+group  by id
+order by num desc
+limit 1;
+
+
+
+
+
+
+1341. Movie Rating
+https://leetcode.com/problems/movie-rating/description/
+
+-- # Write your MySQL query statement below
+(
+  SELECT u.name AS results
+  FROM MovieRating Mr
+  JOIN Users u ON u.user_id = Mr.user_id
+  GROUP BY u.user_id
+  ORDER BY COUNT(Mr.movie_id) DESC, u.name ASC
+  LIMIT 1
+)
+UNION ALL
+(
+  SELECT m.title AS results
+  FROM MovieRating Mr
+  JOIN Movies m ON m.movie_id = Mr.movie_id
+  WHERE YEAR(Mr.created_at) = 2020 
+    AND MONTH(Mr.created_at) = 2
+  GROUP BY m.movie_id
+  ORDER BY AVG(Mr.rating) DESC, m.title ASC
+  LIMIT 1
+);
+
