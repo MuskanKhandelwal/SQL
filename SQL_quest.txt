@@ -198,6 +198,16 @@ FROM monthly_sales
 ORDER BY month;
 
 
+WITH monthly_sales
+ AS(select MONTH(order_date) as mon, SUM(unit_price*quantity) as month_sale
+from amazon_books a 
+join book_orders b
+on a.book_id = b.book_id
+where YEAR(order_date) = 2022
+group by MONTH(order_date))
+
+select mon, month_sale, ROUND(AVG(month_sale) OVER (order by mon),0) AS rolling_average
+from monthly_sales
 
 
 
@@ -267,3 +277,18 @@ UNION ALL
   LIMIT 1
 );
 
+
+
+1141. User Activity for the Past 30 Days I
+https://leetcode.com/problems/user-activity-for-the-past-30-days-i/description/
+select activity_date as "day" ,  COUNT ( DISTINCT user_id) AS active_users
+from Activity where activity_date BETWEEN '2019-06-28' AND '2019-07-27'
+group by activity_date 
+
+
+1729. Find Followers Count
+https://leetcode.com/problems/find-followers-count/description/
+Select user_id, count(follower_id) as followers_count
+From Followers
+Group By user_id
+Order By user_id
