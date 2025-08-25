@@ -292,3 +292,29 @@ Select user_id, count(follower_id) as followers_count
 From Followers
 Group By user_id
 Order By user_id
+
+
+
+
+
+180. Consecutive Numbers
+https://leetcode.com/problems/consecutive-numbers/description/
+METHOD 1
+# Write your MySQL query statement below
+SELECT distinct 
+    i1.num as ConsecutiveNums 
+FROM 
+    logs i1,
+    logs i2,
+    logs i3
+WHERE
+i1.id=i2.id+1 AND 
+    i2.id=i3.id+1 AND 
+    i1.num=i2.num AND 
+    i2.num=i3.num
+
+
+METHOD 2
+select distinct a.num as ConsecutiveNums from Logs a
+JOIN Logs b on a.id = b.id+1 AND a.num = b.num
+JOIN Logs c on a.id = c.id+2 AND a.num = c.num
