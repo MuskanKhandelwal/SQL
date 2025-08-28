@@ -297,6 +297,7 @@ Order By user_id
 
 
 
+
 180. Consecutive Numbers
 https://leetcode.com/problems/consecutive-numbers/description/
 METHOD 1
@@ -318,3 +319,6 @@ METHOD 2
 select distinct a.num as ConsecutiveNums from Logs a
 JOIN Logs b on a.id = b.id+1 AND a.num = b.num
 JOIN Logs c on a.id = c.id+2 AND a.num = c.num
+
+
+
