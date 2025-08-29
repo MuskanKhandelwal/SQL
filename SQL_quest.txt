@@ -9,6 +9,7 @@ AS tab2
 where count_1>1
 
 
+
 Cities With Completed Trade
 
 select city,count(city) AS total_orders from trades t
