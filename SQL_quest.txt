@@ -19,6 +19,7 @@ group by city order by total_orders desc limit 3
 
 Sending vs. Opening Snaps
 
+
 SELECT ag.age_bucket,
 ROUND(100.0 * 
 SUM(a.time_spent) FILTER (WHERE a.activity_type = 'send')/
