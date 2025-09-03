@@ -17,6 +17,7 @@ left join users u on t.user_id=u.user_id
 where t.status='Completed'
 group by city order by total_orders desc limit 3
 
+
 Sending vs. Opening Snaps
 
 
