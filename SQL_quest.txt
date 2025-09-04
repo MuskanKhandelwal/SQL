@@ -325,3 +325,29 @@ JOIN Logs c on a.id = c.id+2 AND a.num = c.num
 
 
 
+Spotify Streaming History
+https://datalemur.com/questions/spotify-streaming-history
+WITH history AS (
+  SELECT 
+    user_id, 
+    song_id, 
+    song_plays
+  FROM songs_history
+
+  UNION ALL
+
+  SELECT 
+    user_id, 
+    song_id, 
+    COUNT(*) AS song_plays
+  FROM songs_weekly
+  WHERE listen_time <= '2022-08-04 23:59:59'
+  GROUP BY user_id, song_id
+)
+SELECT 
+  user_id, 
+  song_id, 
+  SUM(song_plays) AS song_plays
+FROM history
+GROUP BY user_id, song_id
+ORDER BY song_plays DESC;
