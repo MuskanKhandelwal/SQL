@@ -363,3 +363,20 @@ INNER JOIN transactions AS T2
 INNER JOIN transactions AS T3
   ON DATE(T3.transaction_date) = DATE(T1.transaction_date) + 2
 ORDER BY T1.user_id;
+
+
+
+Histogram of Users and Purchases
+
+https://datalemur.com/questions/histogram-users-purchases
+
+with total AS 
+(SELECT  user_id, transaction_date, product_id,
+RANK() OVER (PARTITION BY user_id order by transaction_date desc) AS rank2
+FROM user_transactions)
+
+select transaction_date,user_id, COUNT(product_id) AS purchase_count 
+from total 
+where rank2 = 1
+group by user_id, transaction_date
+order by transaction_date;
