@@ -394,3 +394,21 @@ order_occurrences = (SELECT MAX(order_occurrences)  FROM items_per_order)
 order by mode;
 
 
+
+
+
+
+
+International Call Percentage
+https://datalemur.com/questions/international-call-percentage
+
+SELECT 
+ ROUND(
+    100.0 * SUM(
+CASE WHEN pinfo.country_id != pinfo2.country_id THEN 1 ELSE NULL END)/ COUNT(pinfo.country_id),1)
+AS international_call_pct
+FROM phone_calls pcall
+join phone_info pinfo
+on pcall.caller_id = pinfo.caller_id
+join phone_info pinfo2
+on pcall.receiver_id = pinfo2.caller_id
