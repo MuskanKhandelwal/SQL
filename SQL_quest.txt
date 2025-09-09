@@ -385,16 +385,11 @@ order by transaction_date;
 
 
 
-
-
 Compressed Mode
 https://datalemur.com/questions/alibaba-compressed-mode
 select item_count as mode from items_per_order where 
 order_occurrences = (SELECT MAX(order_occurrences)  FROM items_per_order)
 order by mode;
-
-
-
 
 
 
@@ -412,3 +407,12 @@ join phone_info pinfo
 on pcall.caller_id = pinfo.caller_id
 join phone_info pinfo2
 on pcall.receiver_id = pinfo2.caller_id
+
+
+
+Patient Support Analysis (Part 2)
+https://datalemur.com/questions/uncategorized-calls-percentage
+SELECT ROUND(100.0 * SUM(
+CASE WHEN call_category = 'n/a' OR call_category IS NULL THEN 1 ELSE 0 END )/COUNT(*),1) AS
+uncategorised_call_pct
+ FROM callers;
