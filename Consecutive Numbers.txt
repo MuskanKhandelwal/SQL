@@ -1,0 +1,6 @@
+select Distinct ConsecutiveNums from
+(select num as ConsecutiveNums, 
+LAG(num) over (order by id) AS prevnum,
+LEAD(num) over (order by id) AS nextnum
+from Logs) As t
+where ConsecutiveNums = prevnum and ConsecutiveNums = nextnum 
