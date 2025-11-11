@@ -1,0 +1,12 @@
+with ranked AS(
+    select d.name as Department, e.name as Employee, e.salary as Salary,
+DENSE_RANK() OVER (
+        PARTITION BY e.departmentId 
+        ORDER BY e.salary DESC
+    ) AS RA
+from Employee e join Department d
+on e.departmentId = d.id
+)
+
+select Department, Employee, Salary from ranked 
+where RA <= 3
