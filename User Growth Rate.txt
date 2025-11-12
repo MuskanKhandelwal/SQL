@@ -1,0 +1,25 @@
+WITH dec_counts AS (
+    SELECT 
+        account_id,
+        COUNT(DISTINCT user_id) AS dec_users
+    FROM sf_events
+    WHERE YEAR(record_date) = 2020 
+      AND MONTH(record_date) = 12
+    GROUP BY account_id
+),
+jan_counts AS (
+    SELECT 
+        account_id,
+        COUNT(DISTINCT user_id) AS jan_users
+    FROM sf_events
+    WHERE YEAR(record_date) = 2021 
+      AND MONTH(record_date) = 1
+    GROUP BY account_id
+)
+SELECT 
+    j.account_id,
+    ROUND(j.jan_users * 1.0 / d.dec_users, 2) AS growth_rate
+FROM jan_counts j
+JOIN dec_counts d
+    ON j.account_id = d.account_id
+ORDER BY j.account_id;
