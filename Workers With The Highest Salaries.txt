@@ -1,0 +1,8 @@
+select best_paid_title from (
+select t.worker_title as best_paid_title,
+DENSE_RANK() over (order by w.salary desc) AS rank1 
+from worker w
+right join title t on
+w.worker_id = t.worker_ref_id) as q
+where rank1 = 1
+
