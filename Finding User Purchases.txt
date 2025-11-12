@@ -1,0 +1,18 @@
+with ranked AS(
+select DISTINCT user_id,DATE(created_at)AS purchase_date,
+ROW_NUMBER() OVER(PARTITION BY user_id  order by created_at) as rank1
+from amazon_transactions),
+first_two AS(
+select user_id,
+    MAX(CASE WHEN rank1 = 1 THEN purchase_date END) AS first_date,
+    MAX(CASE WHEN rank1 = 2 THEN purchase_date END) AS second_date
+    from ranked
+    where rank1<=2
+    group by user_id
+)
+
+SELECT user_id
+FROM first_two
+WHERE second_date IS NOT NULL
+  AND DATEDIFF(second_date, first_date) BETWEEN 1 AND 7
+ORDER BY user_id;
