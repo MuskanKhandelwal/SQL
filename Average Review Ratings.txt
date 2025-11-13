@@ -1,0 +1,8 @@
+SELECT 
+EXTRACT(MONTH from submit_date) as mth, 
+product_id as product, 
+ROUND(AVG(stars),2) AS avg_stars
+ FROM reviews
+GROUP BY mth,product 
+order by mth, product
+;
