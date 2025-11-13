@@ -1,0 +1,6 @@
+SELECT p.page_id as page_id
+FROM pages p
+left join page_likes l 
+on p.page_id = l.page_id
+where l.liked_date ISNULL
+order by page_id ASC;
