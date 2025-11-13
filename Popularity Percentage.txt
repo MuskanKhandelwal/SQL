@@ -1,0 +1,14 @@
+
+with all_users as (
+    select *
+    from facebook_friends
+    union
+    select user2 AS user1,
+        user1 AS user2
+    from facebook_friends 
+    )
+
+select user1,
+    100 * (count(user2) / (select count(distinct(user1)) from all_users)) as percentage_popularity
+from all_users
+group by user1;
