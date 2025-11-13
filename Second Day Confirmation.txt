@@ -1,0 +1,14 @@
+Postgressql
+SELECT e.user_id
+FROM emails e
+join texts t 
+on e.email_id = t.email_id
+where t.signup_action = 'Confirmed'AND t.action_date = e.signup_date + INTERVAL '1 day';
+
+
+Mysql
+SELECT e.user_id
+FROM emails e
+join texts t 
+on e.email_id = t.email_id
+where t.signup_action = 'Confirmed'AND t.action_date = DATEADD(day, 1, e.signup_date);
