@@ -1,0 +1,8 @@
+with tab as
+(select business_name,review_text,cool_votes, RANK() over(ORDER BY cool_votes DESC) as vote from( select business_name, review_text,SUM(cool)as cool_votes from yelp_reviews
+group by business_name
+order by cool_votes desc) a
+order by cool_votes desc) 
+
+select business_name,review_text from tab where vote =1
+
